@@ -1,0 +1,43 @@
+.sidenav
+{
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+    padding: 20px;
+    height: 100vh;
+    width:10px;
+    overflow:hidden;
+    transition: 0.3s;
+}
+.active {
+  color: blue;
+  font-weight: bold;
+}
+.sidenav:hover{
+width: 200px;
+}
+.item
+{
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+}
+
+
+.text
+{
+  opacity: 0;
+  transition: 0.3s;
+  white-space: nowrap;
+  font-size: 19px;
+}
+.sidenav:hover .text{
+  opacity: 1;
+  margin-left: 10px;
+}
+.item a{
+  text-decoration: none;
+  padding: 2px;
+}
+

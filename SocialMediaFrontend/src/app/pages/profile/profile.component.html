@@ -1,0 +1,233 @@
+<div class="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-purple-100 py-10 px-6">
+
+  <div class="max-w-7xl mx-auto">
+
+    <!-- PROFILE CARD -->
+    <div class="bg-white rounded-3xl shadow-xl p-8 mb-12">
+
+      <div class="flex flex-col md:flex-row items-center gap-6">
+
+        <!-- AVATAR -->
+        <div
+          class="w-24 h-24 rounded-full bg-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-lg">
+
+          {{ profile.username?.charAt(0) }}
+
+        </div>
+
+        <!-- PROFILE INFO -->
+        <div class="flex-1 text-center md:text-left">
+
+          <h1 class="text-3xl font-bold text-gray-800">
+            {{ profile.username }}
+          </h1>
+
+          <p class="text-gray-500 mt-2">
+            {{ profile.bio }}
+          </p>
+
+        </div>
+
+        <!-- PROFILE BUTTON -->
+        <div *ngIf="!isEditMode">
+
+          <button
+            (click)="editProfile()"
+            class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl transition shadow-md">
+
+            Edit Profile
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- PROFILE EDIT MODE -->
+      <div
+        *ngIf="isEditMode"
+        class="mt-8">
+
+        <input
+          [(ngModel)]="profile.username"
+          placeholder="Username"
+          class="w-full border border-gray-300 rounded-xl p-3 mb-4">
+
+        <textarea
+          [(ngModel)]="profile.bio"
+          rows="3"
+          placeholder="Bio"
+          class="w-full border border-gray-300 rounded-xl p-3 mb-4">
+        </textarea>
+
+        <button
+          (click)="saveProfile()"
+          class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl">
+
+          Save Profile
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- POSTS SECTION -->
+
+    <div>
+
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">
+        My Posts
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div
+          *ngFor="let post of posts"
+          class="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+
+          <!-- NORMAL VIEW -->
+          <div *ngIf="editingId !== post.Id">
+
+            <!-- IMAGE -->
+            <div class="relative group">
+
+              <img
+                [src]="post.image"
+                class="w-full h-64 object-cover">
+
+              <!-- HOVER OVERLAY -->
+              <div
+                class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+
+                <div class="text-center">
+
+                  <p class="text-white text-3xl font-bold">
+                    ❤️ {{ post.like || 0 }}
+                  </p>
+
+                  <p class="text-white text-sm">
+                    Likes
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- TITLE -->
+            <div class="p-5">
+
+              <h3 class="text-lg font-bold text-center text-gray-800 truncate">
+                {{ post.title || 'Untitled Post' }}
+              </h3>
+
+              <!-- ACTIONS -->
+              <div class="flex justify-center gap-4 mt-5">
+
+                <!-- EDIT -->
+
+                <button
+                  (click)="startEdit(post)"
+                  class="w-11 h-11 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center text-white transition">
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-5 h-5">
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.862 4.487a2.25 2.25 0 113.182 3.182L7.5 20.213 3 21l.787-4.5L16.862 4.487z"/>
+
+                  </svg>
+
+                </button>
+
+                <!-- DELETE -->
+
+                <button
+                  (click)="deletePost(post.Id)"
+                  class="w-11 h-11 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center text-white transition">
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-5 h-5">
+
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 7h12M9 7V4h6v3m-8 0v13a2 2 0 002 2h6a2 2 0 002-2V7"/>
+
+                  </svg>
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- EDIT MODE -->
+
+          <div
+            *ngIf="editingId === post.Id"
+            class="p-5">
+
+            <h3 class="text-xl font-bold mb-4 text-gray-700">
+              Edit Post
+            </h3>
+
+            <input
+              [(ngModel)]="post.title"
+              placeholder="Title"
+              class="w-full border border-gray-300 rounded-xl p-3 mb-3">
+
+            <textarea
+              [(ngModel)]="post.description"
+              rows="4"
+              placeholder="Description"
+              class="w-full border border-gray-300 rounded-xl p-3 mb-4">
+            </textarea>
+
+            <div class="flex gap-3">
+
+              <button
+                (click)="savePost(post)"
+                class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl">
+
+                Save
+
+              </button>
+
+              <button
+                (click)="cancelEdit()"
+                class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-xl">
+
+                Cancel
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
