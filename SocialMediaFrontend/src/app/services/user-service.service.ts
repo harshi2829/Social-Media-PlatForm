@@ -78,4 +78,12 @@ deletePost(id: number) {
   );
 }
 
+addComment(comment: any) {
+  return this.http.post(`http://localhost:8080/comment/add`, comment);
+}
+
+getComments(postId: number) {
+  return this.http.get(`http://localhost:8080/comment/${postId}`);
+}
+
 }

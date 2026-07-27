@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
 
     const savedProfile = localStorage.getItem('profile');
 
-    if (savedProfile) {
+    if (savedProfile && savedProfile !== 'null') {
       this.profile = JSON.parse(savedProfile);
     } else {
       this.loadProfile();
@@ -46,12 +46,10 @@ export class ProfileComponent implements OnInit {
 
       next: (res: any) => {
 
-        this.profile = res;
-
-        localStorage.setItem(
-          'profile',
-          JSON.stringify(res)
-        );
+        if (res) {
+          this.profile = res;
+          localStorage.setItem('profile', JSON.stringify(res));
+        }
 
       },
 
@@ -75,10 +73,7 @@ export class ProfileComponent implements OnInit {
 
         this.profile = res;
 
-        localStorage.setItem(
-          'profile',
-          JSON.stringify(res)
-        );
+        localStorage.setItem('profile', JSON.stringify(res));
 
         this.isEditMode = false;
 
@@ -155,32 +150,31 @@ export class ProfileComponent implements OnInit {
     this.editingId = null;
 
   }
+
   deletePost(postId: number) {
 
-  if (!confirm('Are you sure you want to delete this post?')) {
-    return;
-  }
-
-  this.service.deletePost(postId).subscribe({
-
-    next: () => {
-
-      this.posts = this.posts.filter(
-        post => post.Id !== postId
-      );
-
-      alert('Post Deleted');
-
-    },
-
-    error: (err) => {
-
-      console.log(err);
-
+    if (!confirm('Are you sure you want to delete this post?')) {
+      return;
     }
 
-  });
+    this.service.deletePost(postId).subscribe({
 
-}
+      next: () => {
+
+        this.posts = this.posts.filter(post => post.Id !== postId);
+
+        alert('Post Deleted');
+
+      },
+
+      error: (err) => {
+
+        console.log(err);
+
+      }
+
+    });
+
+  }
 
 }
