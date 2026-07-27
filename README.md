@@ -34,3 +34,35 @@ A full-stack Social Media Application built using Spring Boot and Angular. The a
 * Responsive User Interface
 
 ## Project Structure
+
+SocialMedia/
+├── SocialMediaBackend/
+└── SocialMediaFrontend/
+
+## Getting Started
+
+### Backend Setup
+1. Configure MySQL database in `application.properties`
+2. Add your Cloudinary credentials in `application.properties`
+3. Run the Spring Boot application
+
+### Frontend Setup
+1. Navigate to the frontend folder
+2. Install dependencies:
+```bash
+npm install
+```
+3. Start the Angular application:
+```bash
+ng serve
+```
+4. Open `http://localhost:4200`
+
+## Future Enhancements
+* JWT Authentication
+* Real-time Messaging
+* Follow / Unfollow Users
+* Notifications
+
+## Author
+Harshini V
